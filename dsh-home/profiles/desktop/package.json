@@ -5,7 +5,6 @@
     "@deepseek-ai/dsh-web-fetch-http": "0.1.0-rc.8",
     "@nanmicoder/dsh-agent-teams": "^0.1.7",
     "dsh-client-auto-continue": "^0.7.1",
-    "dsh-computer-use": "file:/Applications/DSH Computer Use.app/Contents/Resources/Plugin",
     "dsh-context": "^0.14.0",
     "dsh-find-plugin": "^0.3.7",
     "dsh-plugin-vision": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-vision",
@@ -27,8 +26,7 @@
         "dsh-plugin-vision",
         "dsh-plugin-web-tools",
         "@nanmicoder/dsh-agent-teams",
-        "dsh-preview",
-        "dsh-computer-use"
+        "dsh-preview"
       ]
     }
   }

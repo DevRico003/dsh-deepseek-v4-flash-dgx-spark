@@ -1,4 +1,5 @@
-# Playwright MCP disabled on 2026-08-20: DSH Computer Use (computer_observe/computer_action)
-# now covers real browsing, and two browser stacks confused the agent. dsh-preview keeps the
-# self-verification loop. Re-enable by restoring the row from git history of the setup repo.
+# Home-level composition patch. Empty on purpose: the Playwright MCP row that once lived here
+# was removed on 2026-08-20 (a second browser stack next to dsh-preview confused the agent);
+# ui_snapshot (dsh-verifier) and dsh-preview cover headless browsing. Restore a row from the
+# git history of the setup repo if you need the MCP again.
 []

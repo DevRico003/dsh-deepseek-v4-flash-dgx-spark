@@ -66,13 +66,6 @@ done
 for p in web desktop; do
   "$DSH" plugin --profile "$p" add dsh-context dsh-client-auto-continue dshmarket dsh-find-plugin @nanmicoder/dsh-agent-teams
 done
-CU="/Applications/DSH Computer Use.app/Contents/Resources/Plugin"
-if [ -d "$CU" ]; then
-  for p in headless web desktop; do "$DSH" plugin --profile "$p" add --save-exact "file:$CU"; done
-  echo "    dsh-computer-use added from the app bundle (grant Accessibility + Screen Recording to the app once)"
-else
-  echo "    DSH Computer Use app not found in /Applications; skipping its plugin (https://github.com/ZRui-C/dsh-computer-use/releases)"
-fi
 
 step "5/8 skills"
 ln -sfn "$VERIFIER/skills/graph-verified-coding" "$DSH_HOME/skills/graph-verified-coding"

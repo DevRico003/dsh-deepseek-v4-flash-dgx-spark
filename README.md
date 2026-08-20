@@ -16,8 +16,6 @@ Nothing here touches the Spark side. The server recipe is [MiaAI-Lab/DeepSeek-v4
 | `scripts/` | `install.sh` (profiles, plugins, skills, launchd) and `check.sh` (is everything up) |
 | `docs/` | vLLM wire-format notes, credits |
 
-Not in this repo but part of the setup: [DSH Computer Use](https://github.com/ZRui-C/dsh-computer-use), a signed macOS helper app whose embedded plugin gives the agent `computer_observe` / `computer_action` for a real Chrome and for macOS windows (accessibility tree first, OCR when needed). `install.sh` adds the plugin when the app is in `/Applications`.
-
 The verifier plugin is its own repo: [DevRico003/dsh-verifier](https://github.com/DevRico003/dsh-verifier). `scripts/install.sh` clones it next to this one.
 
 ## Let an agent install it
@@ -48,9 +46,7 @@ The framework behind it, from [llm-as-a-verifier.com](https://llm-as-a-verifier.
 
 **Web.** `web_search` goes through a local DuckDuckGo shim (`launchd/com.devrico003.dsh-ddg-shim.plist`, Python, port 8899) because the shipped search provider needs a DeepSeek cloud key. `web_fetch` uses the official `@deepseek-ai/dsh-web-fetch-http`, which ships disabled because it has no SSRF protection; the `standard-web` preset turns it on for web and desktop, the host-plane row for headless. Know what that means before running unattended agents with it.
 
-**Browser self-checks.** `dsh-preview` (a `frontend-verify` skill plus `browser_*` tools over local Chrome). The agent opens what it built, reads console and computed styles, screenshots it, and hands the screenshot to `analyze_image`. I had the official Playwright MCP mounted next to it for a while; with DSH Computer Use installed the two browser stacks confused the agent, so the MCP row is gone.
-
-**Browser and desktop control.** `DSH Computer Use` (ZRui-C, Apache-2.0) drives a real Chrome through Playwright/CDP and macOS apps through the accessibility tree, with a click-through software cursor so it does not steal your pointer. The agent reads semantic snapshots (roles, names, values, refs), not pixels, which suits the text-only model. It needs Accessibility and Screen Recording permission for the app, granted once in System Settings. `dsh-home/AGENTS.md` carries the rule that matters here: browse and compare freely, but ask before anything that spends money, submits, sends or deletes. Honest status after the first run: it opened amazon.de, got past the cookie dialog and reached a search results page, but needed 31 tool calls and seven minutes to get there, because each step re-reads the whole accessibility tree and the model thought about it at `reasoningEffort: high` for 25 to 30 seconds. For browsing tasks pick `low` in the model picker; that cuts a step to under ten seconds. Pages with fixed consent dialogs below the 1280x800 viewport still trip it up.
+**Browser self-checks.** Two headless tools, nothing opens on screen. `ui_snapshot` (part of `dsh-verifier`) renders one URL across viewports (1440x900 and 390x844 by default) in light and dark mode through Playwright and the installed Google Chrome, writes the PNGs under `~/.dsh/verifier/snapshots/`, and reports console errors, page errors and failed requests; the agent hands the PNGs to `analyze_image` for the verdict and repeats that as design rounds. `dsh-preview` (a `frontend-verify` skill plus `browser_*` tools) covers clicking, typing, DOM reads and computed styles. I tried two other stacks first and removed both: the official Playwright MCP next to dsh-preview confused the agent with two browser APIs, and DSH Computer Use (a real, visible Chrome driven through macOS accessibility) was slow at `reasoningEffort: high` and kept taking over the screen. `dsh-home/AGENTS.md` keeps the one rule that still matters for browsing other sites: ask before anything that spends money, submits, sends or deletes.
 
 **Desktop.** [DSH Desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) shares `~/.dsh`, so the same settings and plugins apply. One rule: do not run `dsh web` and the desktop app at the same time. A web host scans the sessions directory on start, marks in-flight turns of other processes as interrupted, and `dsh-client-auto-continue` then resumes them. Headless sessions therefore live in `~/.dsh/sessions-headless` (`dsh-home/profiles/headless/cordis.patch.yml`).
 
@@ -88,7 +84,7 @@ Every step ends on a done-condition the agent can check. In the first real run t
 
 ## Community plugins installed into the profiles
 
-`dsh-context` (context dashboard for the 1M window), `dsh-client-auto-continue` (resume after network errors; the loop guard is off and the texts are English, see `settings.yaml`), `dshmarket` (plugin market), `dsh-find-plugin`, `dsh-preview`, `@nanmicoder/dsh-agent-teams` (captain and members over the built-in continuable subagents), `dsh-computer-use` (from the app bundle, see above). The profile manifests in `dsh-home/profiles/*/package.json` list them.
+`dsh-context` (context dashboard for the 1M window), `dsh-client-auto-continue` (resume after network errors; the loop guard is off and the texts are English, see `settings.yaml`), `dshmarket` (plugin market), `dsh-find-plugin`, `dsh-preview`, `@nanmicoder/dsh-agent-teams` (captain and members over the built-in continuable subagents). The profile manifests in `dsh-home/profiles/*/package.json` list them.
 
 ## Credits
 
