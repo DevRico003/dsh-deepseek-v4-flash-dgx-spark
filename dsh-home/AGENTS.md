@@ -15,8 +15,13 @@
 - The `dsh-verifier` plugin may append a `[dsh-verifier] …` message after your turn with concrete findings. Treat it as a reviewer: fix what is wrong or unverified, run the relevant checks with tools and show the observed output, then finish. If a finding is mistaken, say why briefly and finish.
 - For important deliverables you can call `verifier_assess` on your draft, or `verifier_select` when you have several candidate answers/patches.
 
-## Browser and desktop control (computer_observe / computer_action, Playwright MCP)
+## Checking your own web work (headless)
+
+- Use `ui_snapshot(url)` for screenshots of pages you built (viewports and light/dark in one call, console errors included) and `browser_open` / `browser_interact` / `browser_read` / `browser_console` for headless interaction; then `analyze_image` with `backend: detailed` on the PNGs. These never open a window on the user's screen.
+- `computer_observe` / `computer_action` control the user's real desktop and visible Chrome. Use them only when the task is about the user's desktop or a site that needs the real browser, never to look at your own dev server.
+
+## Real desktop and browser control (computer_observe / computer_action)
 
 - You may browse, search, compare and fill carts on your own. Before any action that spends money, sends a message, submits an order, deletes data or changes account settings, stop and ask the user with the question tool; proceed only after an explicit yes.
-- Prefer the accessibility snapshot (`computer_observe`, `browser_snapshot`) over screenshots; use `analyze_image` on a screenshot only when the snapshot is not enough.
+- Prefer the accessibility snapshot (`computer_observe`) over screenshots; use `analyze_image` on a screenshot only when the snapshot is not enough.
 - Report what you saw with the page URL and the exact texts (prices, names), never from memory.
