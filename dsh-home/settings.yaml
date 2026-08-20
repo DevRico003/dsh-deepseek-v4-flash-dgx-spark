@@ -77,7 +77,11 @@ agent-default-model:
 # dsh-verifier (LLM-as-a-Verifier gate + tools); full defaults live in the bundle's cordis.patch.yml
 verifier:
   # Defaults come from dsh-verifier/cordis.patch.yml (gate threshold 0.6, maxRounds 1,
-  # backend = Spark with reasoning_effort none + logprobs). Override here, hot-reloaded.
+  # reasoning_effort none + logprobs). The plugin ships a placeholder host, so the
+  # endpoint MUST be set here. Hot-reloaded.
+  backend:
+    baseURL: http://YOUR_SPARK_HOST:8000/v1
+    model: deepseek-v4-flash-0731
   verbose: false
 ui-onboarding:
   welcomeNoticeVersion: 2026-08-13.1
