@@ -1,0 +1,24 @@
+{
+  "name": "dsh-plugin-web-tools",
+  "version": "0.1.0",
+  "description": "Free, keyless web_search (DuckDuckGo shim) + web_fetch (dsh-web-fetch-http) wiring for DeepSeek Harness. Bundle around tonyd2wild/DeepSeek-Harness-Web-Tools for this Mac setup.",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": ["dsh", "dsh-plugin", "web-search", "duckduckgo", "web-fetch"],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-web": "*"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": ["index.js", "cordis.patch.yml", "README.md"]
+}

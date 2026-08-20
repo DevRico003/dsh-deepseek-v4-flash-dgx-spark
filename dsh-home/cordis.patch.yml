@@ -1,0 +1,24 @@
+# Machine-local patch layer shared by EVERY dsh profile (web, desktop, headless).
+# Applied after each profile's own cordis.patch.yml.
+
+# Playwright MCP (official @playwright/mcp) through the built-in MCP client:
+# browser_navigate / browser_click / browser_type / browser_snapshot (text
+# accessibility tree, usable by the text-only brain) / browser_take_screenshot
+# (PNG → analyze_image for the visual check) … Tools appear as mcp__playwright__*.
+# Uses the installed Google Chrome headless; screenshots land in ~/.dsh/browser/shots.
+- insert:
+    - id: mcp-playwright
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: playwright
+        transport: stdio
+        command: npx
+        args: ["-y", "@playwright/mcp@0.0.79", "--browser", "chrome", "--headless", "--isolated", "--output-dir", "/Users/YOUR_USER/.dsh/browser/shots"]
+        cwd: /Users/YOUR_USER/.dsh/browser
+        failOnStartupError: false
+        toolCallTimeoutMs: 120000
+        reconnect:
+          enabled: true
+          initialDelayMs: 500
+          maxDelayMs: 30000
+          maxAttempts: 10

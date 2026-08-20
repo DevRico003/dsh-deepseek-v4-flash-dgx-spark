@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.devrico003.dsh-vision-proxy</string>
+  <key>Comment</key><string>Vision proxy for DeepSeek Harness (door 1): rewrites chat image attachments into text via the local eyes server, forwards everything else to the DGX Spark (deepseek-v4-flash-0731). dsh route: spark-vision → http://127.0.0.1:8900/v1</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/YOUR_USER/Coding/Projekte/ec/DeepSeek-Harness-Vision-Tools/shim/vision_shim.py</string>
+    <string>--host</string><string>127.0.0.1</string>
+    <string>--port</string><string>8900</string>
+    <string>--upstream</string><string>http://YOUR_SPARK_HOST:8000</string>
+    <string>--vision-url</string><string>http://127.0.0.1:8081/v1/chat/completions</string>
+    <string>--vision-model</string><string>mlx-community/Qwen3-VL-4B-Instruct-4bit</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>EYES_DETAIL</key><string>1</string>
+    <key>EYES_MAX_TOKENS</key><string>400</string>
+    <key>EYES_TIMEOUT</key><string>180</string>
+    <key>SHIM_LOG</key><string>1</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>10</integer>
+  <key>StandardOutPath</key><string>/Users/YOUR_USER/.dsh/vision/logs/proxy.log</string>
+  <key>StandardErrorPath</key><string>/Users/YOUR_USER/.dsh/vision/logs/proxy.log</string>
+</dict>
+</plist>

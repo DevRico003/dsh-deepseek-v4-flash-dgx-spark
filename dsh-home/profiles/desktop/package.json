@@ -1,0 +1,33 @@
+{
+  "name": "dsh-profile-desktop",
+  "private": true,
+  "dependencies": {
+    "@deepseek-ai/dsh-web-fetch-http": "0.1.0-rc.8",
+    "@nanmicoder/dsh-agent-teams": "^0.1.7",
+    "dsh-client-auto-continue": "^0.7.1",
+    "dsh-context": "^0.14.0",
+    "dsh-find-plugin": "^0.3.7",
+    "dsh-plugin-vision": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-vision",
+    "dsh-plugin-web-tools": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-web-tools",
+    "dsh-preview": "^0.1.1",
+    "dsh-verifier": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-verifier",
+    "dshmarket": "^1.15.0"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "dsh-context",
+        "dsh-client-auto-continue",
+        "dshmarket",
+        "dsh-find-plugin",
+        "dsh-verifier",
+        "dsh-plugin-vision",
+        "dsh-plugin-web-tools",
+        "@nanmicoder/dsh-agent-teams",
+        "dsh-preview"
+      ]
+    }
+  }
+}

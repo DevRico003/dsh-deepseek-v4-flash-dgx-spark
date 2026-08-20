@@ -1,0 +1,3 @@
+name: Standard + Web
+description: Standard-Preset plus web_fetch (DuckDuckGo-Suche + HTTP-Fetch über dsh-plugin-web-tools). Kopie des rc.8-Standard-Presets mit fetch: true.
+order: 1

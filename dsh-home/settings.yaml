@@ -1,0 +1,99 @@
+# DeepSeek Harness user settings (hot-reloaded).
+# Backend: DeepSeek-V4-Flash-0731 on the DGX Spark pair (vLLM TP=2, spark01 head).
+# See ~/Coding/Projekte/ec/README-dsh-spark.md for the rationale of every switch.
+
+llm-pi-ai:
+  providers:
+    spark:
+      displayName: DGX Spark · DeepSeek V4 Flash 0731
+      # vLLM on the Sparks needs no key; pi-ai still needs a credential reference.
+      # Value lives in ~/.dsh/.credentials.yaml (dummy string).
+      apiKeyEnv: SPARK_API_KEY
+      api: openai-completions
+      baseURL: http://YOUR_SPARK_HOST:8000/v1
+      defaultContextWindow: 1048576
+      # Long 131k-prompt TTFTs (77 to 87 s measured), so keep the idle timeout generous.
+      streamIdleTimeoutMs: 600000
+      compat:
+        # vLLM accepts `developer`, but the DeepSeek template is written for `system`.
+        supportsDeveloperRole: false
+        maxTokensField: max_tokens
+        # vLLM accepts reasoning_effort none|low|high|max (the patched DSpark build
+        # maps `none` → thinking off; `off` is rejected with 400).
+        supportsReasoningEffort: true
+        thinkingFormat: openai
+        supportsUsageInStreaming: true
+        supportsStrictMode: false
+        supportsStore: false
+      models:
+        - id: deepseek-v4-flash-0731
+          name: DeepSeek V4 Flash 0731 (Spark)
+          contextWindow: 1048576
+          # Output cap per request; max_tokens counts thinking + answer on this server.
+          maxTokens: 65536
+          input: [ text ]
+          reasoningEfforts:
+            off: none
+            low: low
+            high: high
+            max: max
+
+    spark-vision:
+      displayName: DGX Spark · DeepSeek V4 Flash 0731 + Vision (Proxy)
+      # Same brain, but through the local vision proxy (LaunchAgent
+      # com.devrico003.dsh-vision-proxy, :8900): chat image attachments are
+      # described by the local Qwen3-VL and reach the model as text.
+      # `input: [text, image]` is true of the PROXY, not of the model.
+      apiKeyEnv: SPARK_API_KEY
+      api: openai-completions
+      baseURL: http://127.0.0.1:8900/v1
+      defaultContextWindow: 1048576
+      streamIdleTimeoutMs: 600000
+      compat:
+        supportsDeveloperRole: false
+        maxTokensField: max_tokens
+        supportsReasoningEffort: true
+        thinkingFormat: openai
+        supportsUsageInStreaming: true
+        supportsStrictMode: false
+        supportsStore: false
+      models:
+        - id: deepseek-v4-flash-0731
+          name: DeepSeek V4 Flash 0731 (Spark, vision via proxy)
+          contextWindow: 1048576
+          maxTokens: 65536
+          input: [ text, image ]
+          reasoningEfforts:
+            off: none
+            low: low
+            high: high
+            max: max
+
+agent-default-model:
+  provider: spark-vision
+  model: deepseek-v4-flash-0731
+  reasoningEffort: high
+
+# dsh-verifier (LLM-as-a-Verifier gate + tools); full defaults live in the bundle's cordis.patch.yml
+verifier:
+  # Defaults come from dsh-verifier/cordis.patch.yml (gate threshold 0.6, maxRounds 1,
+  # backend = Spark with reasoning_effort none + logprobs). Override here, hot-reloaded.
+  verbose: false
+ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
+locale:
+  preference: en
+
+# Default agent preset for web/desktop: user copy of `standard` with web_fetch enabled
+agent-presets:
+  default: standard-web
+
+# dsh-client-auto-continue: English texts; loop guard OFF (it misfired on todo_write/write
+# while the agent waited for subagents and aborted running turns with a Chinese message)
+auto-continue:
+  loopGuard: false
+  continueText: "Continue."
+  continueTextMaxTokens: "Continue where you left off; the previous reply hit the output limit."
+  loopText: "(A loop was detected: stop repeating the last action and continue a different way.)"
+  guardPendingText: "(The previous tool call \"{tool}\" may not have finished: check its state first, then continue without repeating it.)"
+  guardDoneText: "(The previous tool call \"{tool}\" already completed with result: {result}. Do not run it again; continue from there.)"

@@ -1,0 +1,22 @@
+# dsh bundle patch: inserts the analyze_image tool into a profile's layer stack.
+# Backends are OpenAI-compatible vision endpoints. Both point at the local
+# mlx-vlm server (~/.venvs/eyes, LaunchAgent com.devrico003.dsh-eyes) which
+# loads the model named in each request, so one server serves both roles.
+- insert:
+    - id: vision
+      name: dsh-plugin-vision
+      config:
+        backends:
+          fast:
+            url: http://127.0.0.1:8081/v1/chat/completions
+            model: mlx-community/Qwen3.5-0.8B-MLX-8bit
+            maxTokens: 512
+            temperature: 0.2
+          detailed:
+            url: http://127.0.0.1:8081/v1/chat/completions
+            model: mlx-community/Qwen3-VL-4B-Instruct-4bit
+            maxTokens: 1024
+            temperature: 0.2
+        defaultBackend: fast
+        timeoutMs: 180000
+        maxImageBytes: 20971520

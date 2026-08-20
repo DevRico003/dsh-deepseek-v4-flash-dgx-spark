@@ -1,0 +1,12 @@
+# Your patch layer for this dsh profile, applied after every bundle layer:
+# a top-level YAML array of loader patch entries (id-targeted config
+# overrides, disables, and insert lists; `!!js` expressions allowed).
+#
+# Headless runs keep their sessions OUT of the shared ~/.dsh/sessions tree:
+# a Web host (dsh web / DSH Desktop) scans that tree on start, marks in-flight
+# turns of other processes as interrupted and (with dsh-client-auto-continue)
+# even resumes them. One host per sessions root.
+- id: session-persistence-jsonl
+  config:
+    root: !!js dshHomePath('sessions-headless')
+

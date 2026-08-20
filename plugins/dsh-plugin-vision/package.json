@@ -1,0 +1,28 @@
+{
+  "name": "dsh-plugin-vision",
+  "version": "0.2.0",
+  "description": "analyze_image tool for the DeepSeek Harness (dsh): delegates 'seeing' to a local vision model (mlx-vlm on the Mac) so a text-only brain never has an image in its context. Adapted from tonyd2wild/DeepSeek-Harness-Vision-Tools.",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": ["dsh", "dsh-plugin", "vision", "analyze_image"],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-tools": "*"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "link:../deepseek-harness/vendor/cordis",
+    "@deepseek-ai/dsh-tools": "link:../deepseek-harness/packages/core/tools"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": ["index.js", "cordis.patch.yml", "README.md"]
+}

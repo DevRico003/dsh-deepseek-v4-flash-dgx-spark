@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# cwd-independent launcher for the source checkout of DeepSeek Harness.
+# Usage: dsh web | dsh --profile headless "task" | dsh plugin --profile web add <pkg>
+set -euo pipefail
+H="${DSH_SRC:-$HOME/Coding/Projekte/ec/deepseek-harness}"
+export TSX_TSCONFIG_PATH="${TSX_TSCONFIG_PATH:-$H/tsconfig.json}"
+exec node --import "$H/node_modules/tsx/dist/esm/index.mjs" "$H/apps/cli/src/bin.ts" "$@"

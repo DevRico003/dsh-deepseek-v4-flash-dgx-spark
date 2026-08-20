@@ -1,0 +1,29 @@
+# dsh bundle patch: keyless web search + http fetch for every profile that
+# installs this bundle. Requires, per profile:
+#   dsh plugin --profile <p> add @deepseek-ai/dsh-web-fetch-http
+#   (the row below references it by name; plugins resolve from the profile dir)
+#
+# A patch REPLACES the targeted row's whole `config`, so every field is
+# restated. `web_fetch` additionally needs `fetch: true` on the tool row the
+# agent actually sees: host plane (headless) via the `tool-web` row below, web/
+# desktop via the user preset ~/.dsh/.agent-presets/standard-web (the shipped
+# `standard` preset has fetch: false; dsh-web-fetch-http has no SSRF protection).
+- id: web
+  config:
+    searchProvider: ddg-shim
+    fetchProvider: http
+
+- insert:
+    - id: web-fetch-http
+      name: '@deepseek-ai/dsh-web-fetch-http'
+
+    - id: web-search-ddg
+      name: dsh-plugin-web-tools
+      config:
+        baseURL: http://127.0.0.1:8899
+
+# Host-plane tool row (headless); web/desktop disable it and use the preset copy.
+- id: tool-web
+  config:
+    fetch: true
+    searchTimeoutMs: 60000

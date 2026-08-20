@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.devrico003.dsh-eyes</string>
+  <key>Comment</key><string>Local vision model server (mlx-vlm) for DeepSeek Harness: analyze_image tool + vision proxy. Models load per request id (Qwen3.5-0.8B fast, Qwen3-VL-4B detailed).</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/YOUR_USER/.venvs/eyes/bin/mlx_vlm.server</string>
+    <string>--host</string><string>127.0.0.1</string>
+    <string>--port</string><string>8081</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HF_HUB_OFFLINE</key><string>0</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>10</integer>
+  <key>StandardOutPath</key><string>/Users/YOUR_USER/.dsh/vision/logs/eyes.log</string>
+  <key>StandardErrorPath</key><string>/Users/YOUR_USER/.dsh/vision/logs/eyes.log</string>
+  <key>ProcessType</key><string>Interactive</string>
+</dict>
+</plist>

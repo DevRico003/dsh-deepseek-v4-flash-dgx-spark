@@ -1,0 +1,23 @@
+{
+  "name": "dsh-profile-headless",
+  "private": true,
+  "dependencies": {
+    "@deepseek-ai/dsh-web-fetch-http": "0.1.0-rc.8",
+    "dsh-plugin-vision": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-vision",
+    "dsh-plugin-web-tools": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-web-tools",
+    "dsh-preview": "^0.1.1",
+    "dsh-verifier": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-verifier"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-headless",
+        "dsh-verifier",
+        "dsh-plugin-vision",
+        "dsh-plugin-web-tools",
+        "dsh-preview"
+      ]
+    }
+  }
+}
