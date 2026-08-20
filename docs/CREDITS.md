@@ -13,6 +13,7 @@ This setup stands on other people's work. Where I copied or adapted code, the fi
 | [llm-as-a-verifier](https://github.com/llm-as-a-verifier/llm-as-a-verifier), [llm-as-a-verifier.com](https://llm-as-a-verifier.com/) | Kwok et al. (arXiv 2607.05391) | MIT | the scoring method and prompts ported in [dsh-verifier](https://github.com/DevRico003/dsh-verifier) |
 | [deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) | anywhere-labs | MIT | DSH Desktop, the macOS app that shares `~/.dsh` |
 | [dsh-preview](https://github.com/Viger1/dsh-preview) | Viger1 | MIT | `frontend-verify` skill and `browser_*` tools |
+| [dsh-computer-use](https://github.com/ZRui-C/dsh-computer-use) | Zirui Chen (ZRui-C) | Apache-2.0 | signed macOS helper app plus embedded plugin: `computer_observe` / `computer_action` for Chrome and macOS windows |
 | [playwright-mcp](https://github.com/microsoft/playwright-mcp) | Microsoft | Apache-2.0 | `@playwright/mcp`, mounted through the built-in MCP client |
 | [mlx-vlm](https://github.com/Blaizzy/mlx-vlm) | Prince Canuma and contributors | MIT | the local vision server |
 | Qwen3.5-0.8B, Qwen3-VL-4B-Instruct (mlx-community conversions) | Alibaba Qwen team | Apache-2.0 | the two local vision models |

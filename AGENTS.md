@@ -4,7 +4,7 @@ You are installing DeepSeek Harness plus this repo's configuration on a macOS ma
 
 ## Steps
 
-1. **Preflight.** Confirm `node` (24+), `pnpm`, `uv`, `git`, `curl`, `python3` and Google Chrome exist, and that `curl <endpoint>/v1/models` lists a model. Ask the human for the endpoint and model id if `dsh-home/settings.yaml` does not already hold theirs. Done when every tool resolves on `PATH` and the endpoint answers.
+1. **Preflight.** Confirm `node` (24+), `pnpm`, `uv`, `git`, `curl`, `python3` and Google Chrome exist, and that `curl <endpoint>/v1/models` lists a model. Ask the human for the endpoint and model id if `dsh-home/settings.yaml` does not already hold theirs. Optional: if the human wants browser and desktop control, install the DSH Computer Use app first (DMG from https://github.com/ZRui-C/dsh-computer-use/releases into `/Applications`); `install.sh` picks its plugin up automatically, and the human must grant the app Accessibility and Screen Recording in System Settings. Done when every tool resolves on `PATH` and the endpoint answers.
 
 2. **Adapt the config before installing.** In `dsh-home/settings.yaml` set `baseURL` and the model `id` under `llm-pi-ai.providers.spark` and `spark-vision`, and `agent-default-model`. In `plugins/dsh-plugin-vision/cordis.patch.yml` and `launchd/*.plist` replace `/Users/YOUR_USER` with the real home directory only if `install.sh` is not used (it substitutes `$HOME` itself). Done when `grep -n YOUR_SPARK_HOST dsh-home/settings.yaml` finds nothing.
 
@@ -27,6 +27,6 @@ You are installing DeepSeek Harness plus this repo's configuration on a macOS ma
 
 **Where things live.** Provider routes and plugin settings: `~/.dsh/settings.yaml` (hot-reloaded). Profile bundles: `~/.dsh/profiles/<p>/package.json`. Skills: `~/.dsh/skills` and `~/.agents/skills`. Helpers: LaunchAgents `com.devrico003.dsh-eyes` (:8081), `com.devrico003.dsh-vision-proxy` (:8900), `com.devrico003.dsh-ddg-shim` (:8899). Logs: `~/.dsh/vision/logs`, `~/.dsh/web/logs`, and for the desktop app `~/Library/Application Support/DSH Desktop/logs`.
 
-**Known hazards.** `web_fetch` has no SSRF protection; it is on in the `standard-web` preset and the headless host row. The verifier gate runs three model calls at the end of every turn; `verifier: gate: enabled: false` in `settings.yaml` switches it off. The plugins in `~/.dsh/profiles/*` are `link:` installs of the sibling checkouts; editing those checkouts changes the running harness after a host restart.
+**Known hazards.** Browser tasks through `computer_action` are slow at `reasoningEffort: high` (25 to 30 s per step); use `low` for them. `web_fetch` has no SSRF protection; it is on in the `standard-web` preset and the headless host row. The verifier gate runs three model calls at the end of every turn; `verifier: gate: enabled: false` in `settings.yaml` switches it off. The plugins in `~/.dsh/profiles/*` are `link:` installs of the sibling checkouts; editing those checkouts changes the running harness after a host restart.
 
 **Updating.** `git pull` in `../dsh-verifier` and `../deepseek-harness` (then `pnpm run build` in each), `git pull` in this repo, rerun `./scripts/install.sh`. The two tonyd2wild shim repos are cloned at their current `main`; `git pull` them too, then `launchctl kickstart -k gui/$UID/<label>` to restart the helper.
