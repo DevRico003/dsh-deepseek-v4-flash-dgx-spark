@@ -32,7 +32,7 @@ Claude Code and Codex pick `AGENTS.md` up on their own when they work inside the
 
 **Provider route.** `settings.yaml` defines `spark` on `dsh-llm-pi-ai` with `api: openai-completions`. The native `dsh-llm-deepseek` adapter would be the obvious choice, but vLLM streams the model's thinking in a field called `reasoning`, and the native adapter only reads `reasoning_content`; pi-ai reads both. A few more switches matter and I measured each against the server: `reasoning_effort` accepts `none|low|high|max` and `none` really turns thinking off (`off` returns HTTP 400, and `thinking: {type: disabled}` is ignored), so the route maps `off` to `none`. `supportsDeveloperRole: false`, `maxTokensField: max_tokens`, `streamIdleTimeoutMs: 600000` because a 131k-token prompt takes 77 to 87 seconds to first token on this hardware. Details in `docs/vllm-wire-format.md`.
 
-**Verifier.** `dsh-verifier` runs at the end of every turn. It scores the turn with the same model (no thinking, logprobs on) on a 20-letter scale and sends the findings back when the score is under 0.6. In the first real run it caught the agent declaring a project done while its subagents were still running. Cost is three short calls per turn, 6 to 10 seconds.
+**Verifier.** `dsh-verifier` scores with the same model, thinking on (`reasoning_effort: high`, the setting the llm-as-a-verifier authors used for DeepSeek V4 Flash), logprobs on, 20-letter scale. Three places: a gate at the end of every turn (findings come back when the score is under 0.6), a checkpoint every forty steps inside a long turn (the reference progress prompt; a steer with findings when progress is low or falling), and a reminder after twelve file edits without a verifier call. In the first real run the gate caught the agent declaring a project done while its subagents were still running; in a later one it sent the agent back for answering with a paragraph where the task asked for one word. Cost with thinking is one to two minutes per gate on a long turn; `verifier: backend: reasoningEffort: none` brings it to 6 to 10 seconds for chat sessions.
 
 The verifier is the same method the llm-as-a-verifier authors benchmarked with DeepSeek V4 Flash as generator and verifier (chart from their README, Terminal-Bench 2.1, OpenRouter prices of 2026-08-17): best-of-3 lifts the model from 78.7% to 86.5%, best-of-5 to 88.0%, at about a quarter of the cost per task of GPT-5.6 Sol in Codex. On the Sparks the cost per task is electricity, which is the point of running this at home.
 
@@ -70,15 +70,15 @@ Nothing in this repo is a copy of the verifier: `install.sh` clones [dsh-verifie
 
 ## The graph-verified-coding skill
 
-`dsh-verifier` ships a skill, `skills/graph-verified-coding/SKILL.md`, and `install.sh` links it into `~/.dsh/skills`, so every dsh session can load it with the `skill` tool (the line in `dsh-home/AGENTS.md` tells the agent when). It is the working method that ties the verifier, the browser loop, subagents and the `workflow` tool together, written as a graph rather than a straight line:
+`dsh-verifier` ships a skill, `skills/graph-verified-coding/SKILL.md`, and `install.sh` links it into `~/.dsh/skills`, so every dsh session can load it with the `skill` tool (the line in `dsh-home/AGENTS.md` tells the agent when). It is the working method that ties the verifier tools, `ui_snapshot`, the headless browser and subagents together, written as a graph rather than a straight line:
 
 1. Contract: restate the task as acceptance criteria with an observable artifact each.
-2. Cut false edges: split into nodes, run independent ones in parallel (two to four branches on this server), dependent ones in sequence.
+2. Cut false edges: split into nodes, run independent ones in parallel (two to four branches on this server), dependent ones in sequence; each child writes its result to `.graph/<node>.md`.
 3. Work node: implement one node, keep the proving output.
-4. Gate: tests first, then the `frontend-verify` browser loop plus `analyze_image` for anything rendered, then `verifier_assess` when evidence is ambiguous.
+4. Gate, after every node that changed more than one file, before merges and before the final answer: tests first, then `ui_snapshot` plus `analyze_image` for anything rendered, then `verifier_assess` with the node's contract and the observed evidence.
 5. Join: competing candidates go through `verifier_select`.
 6. Cycle with a stop: repair, re-gate, two rounds at most, then report what is open.
-7. Report with evidence.
+7. Report with evidence, including every verifier call with its score.
 
 Every step ends on a done-condition the agent can check. In the first real run the agent followed it end to end and the gate caught the one place it tried to skip ahead. The file is English, the rules are in the file, not here, so read it in the [dsh-verifier repo](https://github.com/DevRico003/dsh-verifier/blob/main/skills/graph-verified-coding/SKILL.md).
 
