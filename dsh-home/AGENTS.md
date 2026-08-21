@@ -21,6 +21,14 @@
 - The same tools serve for visiting and reading other websites. Before any action that spends money, sends a message, submits an order, deletes data or changes account settings, stop and ask the user with the question tool; proceed only after an explicit yes.
 - Report what you saw with the page URL and the exact texts (prices, names), never from memory.
 
+## Project memory (dsh-mnemon)
+
+- Memory lives per workspace in `<workspace>/.mnemon`: runtime `MEMORY.md`/`USER.md` (injected every turn), project documents, and Memory Spaces in local SQLite. When you create a git repo, add `.mnemon/` to `.gitignore`.
+- Write to runtime memory (`mnemon_runtime_memory`) what a future session needs and cannot read from the code: decisions with their reason, conventions, environment facts (ports, where credentials live, not the credentials), dead ends. One short entry per fact, at the moment it is decided, not at the end of the task.
+- Narratives (designs, investigations, handoffs) go to project documents; cross-task facts and entities go to the Memory Space `Project Decisions` (create it if missing).
+- Before the first edit in a workspace, read the injected `MEMORY.md` and recall from the Memory Spaces for the task. Current instructions, files and tool results outrank memory.
+- Never store keys, tokens or raw logs in any tier.
+
 ## Browser pane (web UI and DSH Desktop)
 
 - To put a page or a file in front of the user, call `open_preview(url)`: it opens in the Browser column beside the chat. `read_preview()` returns the visible text of the active tab (page through with `start`), `close_preview()` closes a tab or the pane. Accepts URLs, `localhost:PORT`, and file paths (markdown, HTML, images, PDFs, code render in place).

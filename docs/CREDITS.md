@@ -22,6 +22,8 @@ This setup stands on other people's work. Where I copied or adapted code, the fi
 | [dsh-auto-continue](https://github.com/HsiangNianian/dsh-auto-continue) | HsiangNianian | MIT | auto-resume plugin |
 | [dsh-market](https://github.com/dsh-market/dsh-market) | dsh-market | MIT | plugin market |
 | [dsh-find-plugin](https://github.com/awesome-dsh-plugin/dsh-find-plugin) | awesome-dsh-plugin | MIT | plugin search tool |
+| [dsh-mnemon](https://github.com/omdsh-dev/dsh-mnemon) | omdsh-dev | MIT | three-tier memory plugin (runtime memory, project documents, Memory Spaces) |
+| [mnemon](https://github.com/mnemon-dev/mnemon) | mnemon-dev | Apache-2.0 | the local memory CLI and SQLite store behind dsh-mnemon's native Memory Spaces |
 | [dsh-agent-teams](https://github.com/NanmiCoder/dsh-agent-teams) | NanmiCoder | MIT | agent teams over continuable subagents |
 
 If I missed someone, open an issue and I will add the line.

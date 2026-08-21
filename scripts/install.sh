@@ -8,6 +8,7 @@
 #   ../deepseek-harness   harness source checkout (master), built
 #   ../dsh-verifier-gate       the verifier plugin
 #   ~/.dsh/venv           Python with PyMuPDF for the browser pane's PDF rendering
+#   /opt/homebrew/bin/mnemon  Mnemon CLI (Homebrew cask) behind dsh-mnemon's Memory Spaces
 #   ~/.dsh                settings, profiles, skills, AGENTS.md
 set -euo pipefail
 
@@ -64,6 +65,7 @@ for p in headless web desktop; do
   "$DSH" plugin --profile "$p" add "$HERE/plugins/dsh-plugin-web-tools"
   "$DSH" plugin --profile "$p" add @deepseek-ai/dsh-web-fetch-http@0.1.0-rc.8
   "$DSH" plugin --profile "$p" add dsh-preview
+  "$DSH" plugin --profile "$p" add dsh-mnemon
 done
 for p in web desktop; do
   "$DSH" plugin --profile "$p" add "$HERE/plugins/dsh-plugin-browser"
@@ -73,7 +75,10 @@ done
 step "5/8 skills"
 ln -sfn "$VERIFIER/skills/graph-verified-coding" "$DSH_HOME/skills/graph-verified-coding"
 
-step "6/8 local helpers: eyes (mlx-vlm), ddg shim, vision proxy source, PyMuPDF for the browser pane"
+step "6/8 local helpers: eyes (mlx-vlm), ddg shim, vision proxy source, PyMuPDF for the browser pane, mnemon CLI"
+if ! command -v mnemon >/dev/null 2>&1; then
+  if command -v brew >/dev/null 2>&1; then brew install --cask mnemon-dev/tap/mnemon; else echo "    mnemon CLI missing and no Homebrew: install from https://github.com/mnemon-dev/mnemon and set mnemon: cliPath in settings.yaml"; fi
+fi
 uv venv "$HOME/.venvs/eyes" --python 3.12 >/dev/null 2>&1 || true
 uv pip install --python "$HOME/.venvs/eyes/bin/python" -U mlx-vlm jinja2
 uv venv "$HOME/.venvs/ddg" --python 3.12 >/dev/null 2>&1 || true

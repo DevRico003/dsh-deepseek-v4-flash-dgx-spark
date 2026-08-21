@@ -21,6 +21,9 @@ echo "Browser"
 [ -x "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" ] && ok "Google Chrome (ui_snapshot, browser pane)" || bad "Google Chrome not installed"
 "$HOME/.dsh/venv/bin/python" -c 'import pymupdf' >/dev/null 2>&1 && ok "PyMuPDF in ~/.dsh/venv (PDF pages in the browser pane)" || bad "PyMuPDF missing: uv venv ~/.dsh/venv && uv pip install --python ~/.dsh/venv/bin/python pymupdf"
 
+echo "Memory"
+m=$(/opt/homebrew/bin/mnemon --version 2>/dev/null || mnemon --version 2>/dev/null) && ok "mnemon CLI: $m" || bad "mnemon CLI missing (brew install --cask mnemon-dev/tap/mnemon)"
+
 echo "dsh home"
 for f in "$HOME/.dsh/settings.yaml" "$HOME/.dsh/cordis.patch.yml" "$HOME/.dsh/AGENTS.md" "$HOME/.dsh/.agent-presets/standard-web/agent.cordis.yml" "$HOME/.dsh/skills/graph-verified-coding/SKILL.md"; do
   [ -e "$f" ] && ok "$f" || bad "missing $f"

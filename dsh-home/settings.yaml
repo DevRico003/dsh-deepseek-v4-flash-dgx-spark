@@ -101,3 +101,13 @@ auto-continue:
   loopText: "(A loop was detected: stop repeating the last action and continue a different way.)"
   guardPendingText: "(The previous tool call \"{tool}\" may not have finished: check its state first, then continue without repeating it.)"
   guardDoneText: "(The previous tool call \"{tool}\" already completed with result: {result}. Do not run it again; continue from there.)"
+
+# dsh-mnemon: three-tier project memory (Runtime MEMORY.md/USER.md every turn,
+# Documents, Memory Spaces in local SQLite via the mnemon CLI). Workspace scope:
+# each project keeps its memory in <workspace>/.mnemon (add it to .gitignore).
+# Background task agents inherit the default model route (the Spark).
+mnemon:
+  cliPath: /opt/homebrew/bin/mnemon
+  storageScope: workspace
+  taskAgentModel:
+    mode: inherit
