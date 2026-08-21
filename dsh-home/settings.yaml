@@ -86,6 +86,9 @@ verifier:
   # Log every verifier call with duration and reasoning size (Desktop log / dsh web terminal).
   # One reading per criterion for the node gates (2 = second reading at ~1.5x wall-clock).
   toolEvaluations: 1
+  # One directed comparison per pair and criterion in verifier_select (2 swaps A/B, twice the calls).
+  select:
+    evaluations: 1
   verbose: true
 ui-onboarding:
   welcomeNoticeVersion: 2026-08-13.1
