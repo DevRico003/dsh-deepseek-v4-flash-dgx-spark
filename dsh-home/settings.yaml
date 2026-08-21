@@ -74,9 +74,9 @@ agent-default-model:
   model: deepseek-v4-flash-0731
   reasoningEffort: high
 
-# dsh-verifier (LLM-as-a-Verifier gate + tools); full defaults live in the bundle's cordis.patch.yml
+# dsh-verifier-gate (LLM-as-a-Verifier gate + tools); full defaults live in the bundle's cordis.patch.yml
 verifier:
-  # Defaults come from dsh-verifier/cordis.patch.yml (gate threshold 0.6, maxRounds 1,
+  # Defaults come from dsh-verifier-gate/cordis.patch.yml (gate threshold 0.6, maxRounds 1,
   # reasoning_effort none + logprobs). The plugin ships a placeholder host, so the
   # endpoint MUST be set here. Hot-reloaded.
   backend:

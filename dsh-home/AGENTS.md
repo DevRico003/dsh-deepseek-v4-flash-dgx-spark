@@ -12,7 +12,7 @@
 ## Verification
 
 - For coding work spanning more than one file or step, with competing approaches, or running unattended: load the skill `graph-verified-coding` first (nodes with contracts, gates with evidence, bounded repair cycles).
-- The `dsh-verifier` plugin may append a `[dsh-verifier] …` message after your turn with concrete findings. Treat it as a reviewer: fix what is wrong or unverified, run the relevant checks with tools and show the observed output, then finish. If a finding is mistaken, say why briefly and finish.
+- The `dsh-verifier-gate` plugin may append a `[dsh-verifier-gate] …` message after your turn with concrete findings. Treat it as a reviewer: fix what is wrong or unverified, run the relevant checks with tools and show the observed output, then finish. If a finding is mistaken, say why briefly and finish.
 - For important deliverables you can call `verifier_assess` on your draft, or `verifier_select` when you have several candidate answers/patches.
 
 ## Browser work (headless only)

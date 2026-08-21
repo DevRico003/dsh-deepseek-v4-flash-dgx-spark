@@ -6,14 +6,14 @@
     "dsh-plugin-vision": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-vision",
     "dsh-plugin-web-tools": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-web-tools",
     "dsh-preview": "^0.1.1",
-    "dsh-verifier": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-verifier"
+    "dsh-verifier-gate": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-verifier-gate"
   },
   "dsh": {
     "profile": {
       "bundles": [
         "@deepseek-ai/dsh-base",
         "@deepseek-ai/dsh-headless",
-        "dsh-verifier",
+        "dsh-verifier-gate",
         "dsh-plugin-vision",
         "dsh-plugin-web-tools",
         "dsh-preview"

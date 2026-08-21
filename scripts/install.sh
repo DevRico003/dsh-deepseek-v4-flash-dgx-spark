@@ -6,14 +6,14 @@
 #
 # Layout after install (next to this repo):
 #   ../deepseek-harness   harness source checkout (master), built
-#   ../dsh-verifier       the verifier plugin
+#   ../dsh-verifier-gate       the verifier plugin
 #   ~/.dsh                settings, profiles, skills, AGENTS.md
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 PARENT="$(dirname "$HERE")"
 HARNESS="$PARENT/deepseek-harness"
-VERIFIER="$PARENT/dsh-verifier"
+VERIFIER="$PARENT/dsh-verifier-gate"
 DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
 DSH="$HERE/bin/dsh"
 WITH_LAUNCHD=1
@@ -31,7 +31,7 @@ fi
 
 step "2/8 verifier plugin"
 if [ ! -d "$VERIFIER/.git" ]; then
-  git clone https://github.com/DevRico003/dsh-verifier "$VERIFIER"
+  git clone https://github.com/DevRico003/dsh-verifier-gate "$VERIFIER"
 fi
 ( cd "$VERIFIER" && pnpm install && pnpm run build )
 
