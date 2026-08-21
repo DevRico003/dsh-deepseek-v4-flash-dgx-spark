@@ -7,6 +7,7 @@
     "dsh-client-auto-continue": "^0.7.1",
     "dsh-context": "^0.14.0",
     "dsh-find-plugin": "^0.3.7",
+    "dsh-plugin-browser": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-browser",
     "dsh-plugin-vision": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-vision",
     "dsh-plugin-web-tools": "link:/Users/YOUR_USER/Coding/Projekte/ec/dsh-plugin-web-tools",
     "dsh-preview": "^0.1.1",
@@ -26,7 +27,8 @@
         "dsh-plugin-vision",
         "dsh-plugin-web-tools",
         "@nanmicoder/dsh-agent-teams",
-        "dsh-preview"
+        "dsh-preview",
+        "dsh-plugin-browser"
       ]
     }
   }

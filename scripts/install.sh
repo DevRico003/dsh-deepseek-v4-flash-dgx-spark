@@ -7,6 +7,7 @@
 # Layout after install (next to this repo):
 #   ../deepseek-harness   harness source checkout (master), built
 #   ../dsh-verifier-gate       the verifier plugin
+#   ~/.dsh/venv           Python with PyMuPDF for the browser pane's PDF rendering
 #   ~/.dsh                settings, profiles, skills, AGENTS.md
 set -euo pipefail
 
@@ -56,6 +57,7 @@ done
 
 step "4/8 plugins into the profiles"
 ( cd "$HERE/plugins/dsh-plugin-vision" && pnpm install )
+( cd "$HERE/plugins/dsh-plugin-browser" && pnpm install )
 for p in headless web desktop; do
   "$DSH" plugin --profile "$p" add "$VERIFIER"
   "$DSH" plugin --profile "$p" add "$HERE/plugins/dsh-plugin-vision"
@@ -64,17 +66,20 @@ for p in headless web desktop; do
   "$DSH" plugin --profile "$p" add dsh-preview
 done
 for p in web desktop; do
+  "$DSH" plugin --profile "$p" add "$HERE/plugins/dsh-plugin-browser"
   "$DSH" plugin --profile "$p" add dsh-context dsh-client-auto-continue dshmarket dsh-find-plugin @nanmicoder/dsh-agent-teams
 done
 
 step "5/8 skills"
 ln -sfn "$VERIFIER/skills/graph-verified-coding" "$DSH_HOME/skills/graph-verified-coding"
 
-step "6/8 local helpers: eyes (mlx-vlm), ddg shim, vision proxy source"
+step "6/8 local helpers: eyes (mlx-vlm), ddg shim, vision proxy source, PyMuPDF for the browser pane"
 uv venv "$HOME/.venvs/eyes" --python 3.12 >/dev/null 2>&1 || true
 uv pip install --python "$HOME/.venvs/eyes/bin/python" -U mlx-vlm jinja2
 uv venv "$HOME/.venvs/ddg" --python 3.12 >/dev/null 2>&1 || true
 uv pip install --python "$HOME/.venvs/ddg/bin/python" ddgs
+uv venv "$DSH_HOME/venv" --python 3.12 >/dev/null 2>&1 || true
+uv pip install --python "$DSH_HOME/venv/bin/python" pymupdf
 mkdir -p "$DSH_HOME/vision/test"
 python3 - "$DSH_HOME/vision/test" <<'EOF'
 import zlib, struct, sys, os

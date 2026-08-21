@@ -1,0 +1,13 @@
+# dsh bundle patch: inserts the browser pane plus the open_preview,
+# read_preview and close_preview tools into a profile's layer stack.
+# Web and desktop profiles only: the host half needs ctx.webServer.
+- insert:
+    - id: browser-pane
+      name: dsh-plugin-browser
+      config:
+        # Characters per read_preview page (the tool pages with start=end).
+        count: 4000
+        # Chrome runs headless: no window, no Dock icon, same persistent
+        # profile under ~/.dsh/browser-profile. false = upstream behaviour,
+        # a real window moved off-screen (on macOS it lands on the screen).
+        headless: true

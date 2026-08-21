@@ -20,3 +20,9 @@
 - Screenshots of pages you built: `ui_snapshot(url)` (viewports and light/dark in one call, console and page errors included), then `analyze_image` with `backend: detailed` on the PNGs. Interaction and DOM reads: `browser_open` / `browser_interact` / `browser_read` / `browser_console`. Nothing opens on the user's screen.
 - The same tools serve for visiting and reading other websites. Before any action that spends money, sends a message, submits an order, deletes data or changes account settings, stop and ask the user with the question tool; proceed only after an explicit yes.
 - Report what you saw with the page URL and the exact texts (prices, names), never from memory.
+
+## Browser pane (web UI and DSH Desktop)
+
+- To put a page or a file in front of the user, call `open_preview(url)`: it opens in the Browser column beside the chat. `read_preview()` returns the visible text of the active tab (page through with `start`), `close_preview()` closes a tab or the pane. Accepts URLs, `localhost:PORT`, and file paths (markdown, HTML, images, PDFs, code render in place).
+- The pane drives a separate headless Chrome with its own profile; a login the user makes in the pane persists. The money, message, order and account-settings rule above applies there too.
+- For your own checks of pages you built, `ui_snapshot` and `browser_*` remain the tools; the pane is for showing the user something or for sites that need the user's session.

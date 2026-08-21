@@ -1,0 +1,32 @@
+{
+  "name": "dsh-plugin-browser",
+  "version": "1.0.0",
+  "description": "In-app browser pane for the DeepSeek Harness web UI and DSH Desktop: a real Chrome driven over CDP (headless on this setup), rendered previews of local files, markdown and PDFs, and the open_preview / read_preview / close_preview tools. Adapted from tonyd2wild/DeepSeek-Harness-Browser.",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": ["dsh", "dsh-plugin", "deepseek-harness", "browser", "cdp", "preview", "pdf"],
+  "engines": { "node": "^22.19.0 || >=24.0.0" },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-tools": "*"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "link:../deepseek-harness/vendor/cordis",
+    "@deepseek-ai/dsh-tools": "link:../deepseek-harness/packages/core/tools"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "inject": ["@deepseek-ai/dsh-client-runtime"],
+      "platform": "web"
+    }
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": ["index.js", "client.js", "cdpbrowser.js", "filerender.js", "pdfrender.js", "webproxy.js", "cordis.patch.yml", "README.md", "LICENSE"]
+}

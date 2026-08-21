@@ -17,6 +17,10 @@ curl -s -m 5 http://127.0.0.1:8081/v1/models >/dev/null 2>&1 && ok "eyes (mlx-vl
 h=$(curl -s -m 30 http://127.0.0.1:8900/health 2>/dev/null); echo "$h" | grep -q '"ready": true' && ok "vision proxy ready on :8900" || bad "vision proxy not ready on :8900"
 curl -s -m 5 http://127.0.0.1:8899/health 2>/dev/null | grep -q duckduckgo && ok "ddg shim on :8899" || bad "ddg shim not answering on :8899"
 
+echo "Browser"
+[ -x "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" ] && ok "Google Chrome (ui_snapshot, browser pane)" || bad "Google Chrome not installed"
+"$HOME/.dsh/venv/bin/python" -c 'import pymupdf' >/dev/null 2>&1 && ok "PyMuPDF in ~/.dsh/venv (PDF pages in the browser pane)" || bad "PyMuPDF missing: uv venv ~/.dsh/venv && uv pip install --python ~/.dsh/venv/bin/python pymupdf"
+
 echo "dsh home"
 for f in "$HOME/.dsh/settings.yaml" "$HOME/.dsh/cordis.patch.yml" "$HOME/.dsh/AGENTS.md" "$HOME/.dsh/.agent-presets/standard-web/agent.cordis.yml" "$HOME/.dsh/skills/graph-verified-coding/SKILL.md"; do
   [ -e "$f" ] && ok "$f" || bad "missing $f"
