@@ -77,18 +77,12 @@ agent-default-model:
 # dsh-verifier-gate (LLM-as-a-Verifier gate + tools); full defaults live in the bundle's cordis.patch.yml
 verifier:
   # Defaults come from dsh-verifier-gate/cordis.patch.yml (gate threshold 0.6, maxRounds 1,
-  # end-of-turn gate at reasoning_effort high, verifier_* tools at low,
-  # checkpoints at low, logprobs on). The plugin ships a placeholder host, so the
-  # endpoint MUST be set here. Hot-reloaded.
+  # one reasoning_effort high for every verifier call, logprobs on, no mid-turn checks).
+  # The plugin ships a placeholder host, so the endpoint MUST be set here. Hot-reloaded.
   backend:
     baseURL: http://YOUR_SPARK_HOST:8000/v1
     model: deepseek-v4-flash-0731
-  # One reading per criterion for the node gates (2 = second reading at ~1.5x wall-clock).
-  toolEvaluations: 1
-  # One directed comparison per pair and criterion in verifier_select (2 swaps A/B, twice the calls).
-  select:
-    evaluations: 1
-  # Log every verifier call with duration and reasoning size (Desktop log / dsh web terminal).
+  # Log every verifier call with duration, token counts and score source (Desktop log / dsh web terminal).
   verbose: true
 ui-onboarding:
   welcomeNoticeVersion: 2026-08-13.1
