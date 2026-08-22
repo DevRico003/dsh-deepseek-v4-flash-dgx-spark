@@ -46,8 +46,6 @@ else
   echo "    wrote $DSH_HOME/settings.yaml; replace YOUR_SPARK_HOST with your vLLM host"
 fi
 [ -e "$DSH_HOME/.credentials.yaml" ] || ( umask 077; cp "$HERE/dsh-home/.credentials.yaml.example" "$DSH_HOME/.credentials.yaml" )
-# The headless and web profiles (source checkout, versioned layout) read their own document; DSH Desktop (rc.7, flat layout) keeps .credentials.yaml.
-[ -e "$DSH_HOME/.credentials-0.1.1.yaml" ] || ( umask 077; cp "$HERE/dsh-home/.credentials-0.1.1.yaml.example" "$DSH_HOME/.credentials-0.1.1.yaml" )
 sed "s|/Users/YOUR_USER|$HOME|g" "$HERE/dsh-home/cordis.patch.yml" > "$DSH_HOME/cordis.patch.yml"
 cp "$HERE/dsh-home/AGENTS.md" "$DSH_HOME/AGENTS.md"
 rm -rf "$DSH_HOME/.agent-presets/standard-web"

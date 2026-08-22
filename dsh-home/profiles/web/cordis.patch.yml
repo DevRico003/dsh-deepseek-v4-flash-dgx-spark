@@ -1,8 +1,1 @@
 # Your patch layer for this dsh profile, applied after every bundle layer.
-
-# The source checkout (0.1.1) writes the versioned credentials layout, DSH Desktop
-# (bundled rc.7) reads only the flat one. Same ~/.dsh, so each harness gets its own
-# document: Desktop keeps ~/.dsh/.credentials.yaml, the checkout profiles use this file.
-- id: credentials
-  config:
-    path: !!js dshHomePath('.credentials-0.1.1.yaml')

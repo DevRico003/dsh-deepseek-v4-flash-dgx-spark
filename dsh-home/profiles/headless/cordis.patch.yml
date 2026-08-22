@@ -9,10 +9,3 @@
 - id: session-persistence-jsonl
   config:
     root: !!js dshHomePath('sessions-headless')
-
-# The source checkout (0.1.1) writes the versioned credentials layout, DSH Desktop
-# (bundled rc.7) reads only the flat one. Same ~/.dsh, so each harness gets its own
-# document: Desktop keeps ~/.dsh/.credentials.yaml, the checkout profiles use this file.
-- id: credentials
-  config:
-    path: !!js dshHomePath('.credentials-0.1.1.yaml')

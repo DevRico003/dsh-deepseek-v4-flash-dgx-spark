@@ -113,8 +113,3 @@ mnemon:
   taskAgentModel:
     mode: inherit
 
-# Subagent reports reach the parent at its next step (inject into the next-step lane) instead of
-# waiting as a next-turn followup until the parent's current turn ends (the rc.7 default `wakeup`
-# that DSH Desktop 2.0.1 bundles). The settlement notice still wakes an idle parent.
-tool-subagent-report:
-  reportDelivery: quiet
